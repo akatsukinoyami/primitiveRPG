@@ -1,0 +1,13 @@
+__pycache__
+
+/include
+
+/lib
+
+/lib64
+
+/site-packages
+
+/pyvenv.cfg
+
+/bin
