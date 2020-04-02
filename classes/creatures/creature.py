@@ -1,9 +1,11 @@
 from random import randint
+from classes.tech.colors import Colors as c
 
 class Somebody: #to love
 	def __init__(self, 
-		name,
+		world, name,
 		x=16, y=16,
+		color=c.PINK,
 		health  = 100, 
 		stamina = 100, 
 		mana    = 100,
@@ -16,8 +18,11 @@ class Somebody: #to love
 		spells	= [], 
 		mode = 'normal'): #'defend', 'wait', 'stunned'
 
+		self.world		= world
 		self.name       = name
+
 		self.x, self.y	= x, y
+		self.color		= color
 		self.health     = health
 		self.stamina    = stamina
 		self.mana       = mana
@@ -54,7 +59,37 @@ class Somebody: #to love
 		self.health -= end_damage
 		self.mode = 'normal'
 		return 'damaged', end_damage
+
+	def draw(self, draw, surface):
+		draw.rect(surface, self.color, (self.x-9, self.y-9, 20, 20))
+		return surface
+	
+	def move(self, g, wd, i):
+		cS = self.world.cell_size*3
+		mw = wd.map.rect.width
+		mh = wd.map.rect.height
+		camera = self.world.camera
+		x, y = 0,0
+		if   i.key == g.K_LEFT:	
+			if self.x <= cS:	self.world.camera = (camera[0]-1, 	camera[1])
+			else:				x =-32
+		elif i.key == g.K_RIGHT:	
+			if self.x >= mw-cS:	self.world.camera = (camera[0]+1, 	camera[1])
+			else:				x = 32
+		elif i.key == g.K_UP:		
+			if self.y <= cS:	self.world.camera = (camera[0], 	camera[1]-1)
+			else:				y =-32
+		elif i.key == g.K_DOWN:	
+			if self.y >= mh-cS:	self.world.camera = (camera[0], 	camera[1]+1)
+			else:				y = 32
+	
 		
-	@staticmethod
-	def draw(draw, surface, color, x, y):
-		return draw.rect(surface, color, (x, y, 20, 20), 5)
+		z = self.world.height_generator((self.x+x)//self.world.cell_size,
+										(self.y+y)//self.world.cell_size)
+		
+		if z != 2 and z != -2:
+			self.x+=x
+			self.y+=y
+		else:
+			self.world.camera = camera
+		

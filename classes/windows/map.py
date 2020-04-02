@@ -5,21 +5,17 @@ class Map:
 		self.surf, self.rect = surf, rect
 		
 	def draw_grid(self, g, line, world):
-		m = world.map
-		for row in m:
-			for c in row:
-				x = c.x*c.size
-				y = c.y*c.size
-				g.draw.rect(self.surf, c.color,	(x, y, c.size, c.size))
-				g.draw.rect(self.surf, line,	(x, y, c.size, c.size), 2)
-		
 		c = Colors()
-		h = world.hero
-		g.draw.rect(self.surf, c.PINK, (h.x-9, h.y-9, 20, 20))
-		
-		
-		
+		s = world.cell_size
 
+		for x in range(self.rect.width//s):
+			for y in range(self.rect.height//s):
+				heights = {	2:c.WHITE, 1:c.GRAY, 
+							0:c.GREEN, 
+							-1:c.YELLOW, -2:c.BLUE}
+				z = world.height_generator(x, y)
+				g.draw.rect(self.surf, heights[z], 	(x*s, y*s, s, s))
+				g.draw.rect(self.surf, line,		(x*s, y*s, s, s), 2)
 				
-
-
+		self.surf = world.hero.draw(g.draw, self.surf)
+		g.draw.rect(self.surf, line, (0, 0, self.rect.width, self.rect.height), 1)

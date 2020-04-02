@@ -1,6 +1,7 @@
 class Colors:
 	WHITE 		= (255, 255, 255)
 	BLACK 		= (  0,   0,   0)
+	DARK_GRAY	= ( 80,  80,  80)
 	GRAY 		= (125, 125, 125)
 	GREEN 		= (  0, 200,  64)
 	YELLOW 		= (225, 225,   0)
