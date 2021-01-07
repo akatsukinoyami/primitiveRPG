@@ -48,7 +48,7 @@ jupyter-core==4.6.3
 lazy-object-proxy==1.4.3
 lockfile==0.12.2
 louis==3.13.0
-lxml==4.5.0
+lxml==4.6.2
 MarkupSafe==1.1.1
 marshmallow==3.5.0
 mccabe==0.6.1
